@@ -19,11 +19,19 @@
 
   <p>At a minimum, we need a world populated with objects, i.e. <em class="term">geometry</em>. The world also contains <em class="term">light sources</em>, which scatter light rays onto the geometry. Based on physical properties of the geometry, the light bounces off the geometry again and again, illuminating the scene. This is the basis of the <em class="term">rendering equation</em>.</p>
 
-  <div class="figure" id="figure-light-bounce"><p class="caption">Light rays bouncing off geometry. Notice the indirect bounces.</p></div>
+  <div class="figure" id="figure-light-bounce">
+    <img width="512" alt="Light rays bouncing off two spheres" src="../img/light-bounces.png"/>
+
+    <p class="caption">Light rays bouncing off geometry. Notice the indirect bounces.</p>
+  </div>
 
   <p>To actually view this scene, we place a camera in the world. This is analogous to our eyes. Light rays bouncing off the geometry converge at the camera, and we record where those rays end up on an imaginary canvas called the <em class="term">image plane</em>. In doing so, we have to determine what is actually visible to each point on the image plane.</p>
 
-  <div class="figure" id="figure-image-plane"><p class="caption">Light rays originating from the geometry converge at the camera, passing through the image plane. The convergence causes objects farther from the camera to appear smaller, an effect known as <em class="term">perspective</em>.</p></div>
+  <div class="figure" id="figure-image-plane">
+    <img width="768" alt="Light rays originating from the geometry converging at the camera, passing through the image plane" src="../img/perspective.png"/>
+
+    <p class="caption">Light rays originating from the geometry converge at the camera, passing through the image plane. The convergence causes objects farther from the camera to appear smaller, an effect known as <em class="term">perspective</em>.</p>
+  </div>
 
   <p>There are two approaches to solving the visibility problem. The conceptually simple approach is <em class="term">ray tracing</em>, which <em class="term">simulates</em> light rays reaching the camera by sending out rays <em>from</em> the camera, then tracing its path as it travels to a light source. This maps well to how light physically travels in the real world, making it simple to simulate real-world effects such as shadows and reflections. These effects are collectively known as <em class="term">global illumination</em>.</p>
 
@@ -36,9 +44,13 @@
   <p>However, this simulation is slow. An alternate approach is <em class="term">rasterization</em>. In this approach, we first <em class="term">project</em> the geometry onto the image plane, then work directly on the perspective-corrected representation of the geometry. This approach can be implemented more efficiently, but at the cost of increased complexity. Global illumanation effects need to be special-cased one by one, often requiring multiple rendering passes and pre-computation ("baking").</p>
 
   <div class="figure" id="figure-rasterization">
+    <img width="768" alt="Projecting the geometry onto the image plane, then checking which pixels are covered by the projected geometry" src="../img/rasterization.png"/>
+
     <p class="caption">Rasterization works by projecting the geometry onto the image plane, then checking which pixels on the plane are covered by the projected geometry.</p>
   </div>
 
   <p>Ray tracing is usually used for offline rendering, such as in Pixar films, and rasterization for realtime graphics, such as games. The latter is the approach used by GPUs.</p>
+
+  <p>In this course, we will focus on ray tracing. It closely mirrors the intuition we have about how light interacts with the world, and we can avoid the more complicated math in the initial stages of development. This lets us build up our renderer in small pieces. The concepts we will use are foundational, so they carry over to real-time rendering techniques, which approximate the same light transport in different ways.</p>
 </body>
 </html>
