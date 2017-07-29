@@ -12,7 +12,7 @@
 body {
   width: 30em;
   margin: auto;
-  font: 30pt 'Linden Hill';
+  font: 20pt 'Linden Hill';
   color: #333;
 }
 
@@ -59,7 +59,7 @@ ul li {
 .figure .caption {
   width: 80%;
   margin: auto;
-  font-size: 80%;
+  font-size: 90%;
   font-style: italic;
 }
 
