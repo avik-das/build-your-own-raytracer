@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Build your own 3D renderer - Casting rays from the camera to the image plane</title>
+  <link rel="stylesheet" href="../css/lesson.css">
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</head>
+<body>
+  <h1>Lesson 1: Casting rays from the camera to the image plane</h1>
+
+  <p class="aside">This section deals with <em class="term">vectors</em>. If you're not familiar with vectors, or need to brush up, please read the refresher on vectors before reading this section.</p>
+
+  <p>In the real world, light rays originate at light sources, run into objects, causing bounced rays to scatter in many directions. Some of the bounced rays enter our eyes&mdash;the camera&mdash;and these are the rays we see. If we were to simulate this faithfully, we would simulate many rays that we'd never see, which is a waste of computational power. Instead, in ray tracing, we go backwards: cast rays from the camera out into the world and see how they end up at the light sources.</p>
+
+  <div class="figure" id="figure-forward-and-backward-tracing">
+    <img width="1024" alt="Forward and backward tracing" src="../img/forward-and-backward-tracing.png"/>
+
+    <p class="caption">In <em class="term">forward tracing</em>, most rays don't end up at the camera. In <em class="term">backward tracing</em>, we only consider rays that end at the camera by starting at the camera.</p>
+  </div>
+
+  <p>Even with backward tracing, how many rays do we cast, and which ones? To answer this, we divide the image plane into small regions, one corresponding to each pixel in the output image. Then, we construct a ray starting at the camera and passing through the center of each region.</p>
+
+  <div class="figure" id="figure-casting-ray-from-camera-to-image-plane">
+    <img width="512" alt="A ray is cast from the camera to a point on the image plane" src="../img/casting-ray-from-camera-to-image-plane.png"/>
+
+    <p class="caption">A ray is constructed, originating at the camera and passing through a point on the image plane.</p>
+  </div>
+
+  <p>The position of the camera is constant; we call it `vec bbc`. The image plane is represented by the positions of its four corners, call them `vec bbx_1`, `vec bbx_2`, `vec bbx_3` and `vec bbx_4`. Supposed we have a point `vec bbp` on the image plane. This point is some percentage `alpha in [0, 1]` (between `0` and `1` inclusive) of the distance horizontally between the left and right edges of the image plane. Similarly, it's some percentage `beta in [0, 1]` of the distance vertically between the top and bottom edges of the image plane.</p>
+
+  <p>To find `vec bbp`, we <em class="term">linearly interpolate</em> (or <em class="term">lerp</em> for short) a distance of `alpha` between `vec bbx_1` and `vec bbx_2`, and again between `vec bbx_3` and `vec bbx_4`. Then, we take the two resulting points and lerp a distance of `beta` between them. This is known as <em class="term">bilinear interpolation</em>.</p>
+
+  <div class="figure" id="figure-bilinear-interpolation">
+    <img width="512" alt="Linearly interpolating in one direction, then interpolating the results in the other direction" src="../img/bilinear-interpolation.png"/>
+  </div>
+
+  <p>
+    \begin{align}
+    \vec{\mathbf{t}} & = (1 - \alpha) \vec{\mathbf{x}_1} + \alpha \vec{\mathbf{x}_2} \\
+    \vec{\mathbf{b}} & = (1 - \alpha) \vec{\mathbf{x}_3} + \alpha \vec{\mathbf{x}_4} \\
+    \vec{\mathbf{p}} & = (1 - \beta) \vec{\mathbf{t}} + \beta \vec{\mathbf{b}}
+    \end{align}
+  </p>
+
+  <p>Finally, the resulting ray is the one originating at `vec bbc`, with a direction of `vec bbo = (vec bbp - vec bbc)`.</p>
+</body>
+</html>

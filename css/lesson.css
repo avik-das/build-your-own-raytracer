@@ -62,3 +62,13 @@ ul li {
   font-size: 80%;
   font-style: italic;
 }
+
+.aside {
+  padding: 1em;
+  margin: 2em;
+
+  color: #3d3d32;
+  background: #fffccc;
+  border: 2px solid #cca;
+  border-radius: 10px;
+}
