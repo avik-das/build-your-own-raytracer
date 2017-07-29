@@ -59,6 +59,7 @@ ul li {
 .figure .caption {
   width: 80%;
   margin: auto;
+  margin-top: 10px;
   font-size: 90%;
   font-style: italic;
 }

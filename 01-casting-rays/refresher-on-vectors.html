@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Build your own 3D renderer - A quick refresher on vectors</title>
+  <link rel="stylesheet" href="../css/lesson.css">
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</head>
+<body>
+  <h1>Build your own 3D renderer - A quick refresher on vectors</h1>
+
+  <p>A point in 3 dimensions can be represented as distances along 3 axes. The distances are known as the coordinates. The axes, labeled `x`, `y` and `z`, are&mdash;by convention&mdash;arranged in a right-handed coordinate system.</p>
+
+  <div class="figure" id="figure-vector-coordinates">
+    <img width="1024" alt="A vector with three coordinates. A right hand with the fingers pointing toward the x direction and the thumb pointing toward the z direction." src="../img/vector-coordinates.png"/>
+
+    <p class="caption">A vector `vec bbv`, with three coordinates.</p>
+    <p class="caption">A right-handed coordinate system. Starting with your right fingers pointed toward the positive `x` axis, curl your fingers toward the positve `y` axis. Your thumb points toward the positive `z` axis.</p>
+  </div>
+
+  <p>To differentiate between a vector and a scalar (a non-vector, numerical value), we will write the name of a vector in bold, with an arrow on top. A vector can also be written as its three components in between angle brackets.</p>
+
+  <p>
+    \begin{align}
+    \vec{\mathbf{v}} & = \langle x, y, z \rangle \\
+    \end{align}
+  </p>
+
+  <p>The sum of two vectors is the vector obtained by following the two vectors from the origin of the coordinate system one by one. The difference of the two vectors is the vector obtained by starting at the tip of the second vector and travelling to the tip of the first. Both operations can be performed by adding or subtracting the individual coordinates of the two vectors.</p>
+
+  <div class="figure" id="figure-vector-sum-difference">
+    <img width="1024" alt="Vector sum and difference" src="../img/vector-addition-subtraction.png"/>
+
+    <p class="caption">The sum and difference of two vectors `vec bbv_1` and `vec bbv_2`.</p>
+  </div>
+
+  <p>
+    \begin{align}
+    \vec{\mathbf{v}_1} & = \langle a, b, c \rangle \\
+    \vec{\mathbf{v}_2} & = \langle d, e, f \rangle \\
+    \vec{\mathbf{v}_1} + \vec{\mathbf{v}_2} & = \langle a + d, b + e, c + f \rangle \\
+    \vec{\mathbf{v}_1} - \vec{\mathbf{v}_2} & = \langle d - a, e - b, f - c \rangle \\
+    \end{align}
+  </p>
+
+  <p>A vector can be scaled by a scalar, stretching or squashing the vector. The operation is performed by scaling each coordinate of the vector by the scalar.</p>
+
+  <div class="figure" id="figure-vector-sum-difference">
+    <img width="512" alt="Vector scaling" src="../img/vector-scaling.png"/>
+    <p class="caption">A vector `vec bbv` scaled by `1/2` and by `2`.</p>
+  </div>
+
+  <p>
+    \begin{align}
+    \vec{\mathbf{v}} & = \langle a, b, c \rangle \\
+    k \vec{\mathbf{v}} & = \langle ka, kb, kc \rangle
+    \end{align}
+  </p>
+
+  <p>With these pieces, we can now represent a ray originating at `vec bbo` and passing through `vec bbp` as two vectors:</p>
+
+  <ol>
+    <li>The origin `vec bbo`.</li>
+    <li>The direction `(vec bbp - vec bbo)`.</li>
+  </ol>
+</body>
+</html>
