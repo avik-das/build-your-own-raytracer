@@ -1,0 +1,64 @@
+@font-face {
+  font-family: 'Linden Hill';
+  src: url('LindenHill-webfont.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Linden Hill';
+  src: url('LindenHill-Italic-webfont.woff') format('woff');
+  font-style: italic;
+}
+
+body {
+  width: 30em;
+  margin: auto;
+  font: 30pt 'Linden Hill';
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+}
+
+p {
+  line-height: 1.4em;
+}
+
+ol, ul {
+  margin-left: 1em;
+}
+
+ol li,
+ul li {
+  margin-bottom: 0.25em;
+}
+
+.term {
+  color: #000;
+  display: inline-box;
+  padding: 5px 10px;
+  margin: 0 -10px;
+  border-radius: 0.25em;
+  background-image: linear-gradient(
+    -100deg,
+    rgba(255, 255, 0, 0.1),
+    rgba(255, 255, 0, 0.7) 10%,
+    rgba(255, 255, 0, 0.7) 90%,
+    rgba(255, 255, 0, 0.1)
+  );
+}
+
+.figure {
+  text-align: center;
+}
+
+.figure img {
+  max-width: 100%;
+}
+
+.figure .caption {
+  width: 80%;
+  margin: auto;
+  font-size: 80%;
+  font-style: italic;
+}

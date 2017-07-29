@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Build your own 3D renderer - Background</title>
+  <link rel="stylesheet" href="../css/lesson.css">
+</head>
+<body>
+  <h1>Background</h1>
+
+  <p>When rendering 3D graphics, there are two questions we want to answer:</p>
+
+  <ol>
+    <li>How do we represent a 3-dimensional world?</li>
+    <li>How do we convert this representation into a 2-dimensional image?</li>
+  </ol>
+
+  <p>We will build up the answers to these two questions in parallel.</p>
+
+  <p>At a minimum, we need a world populated with objects, i.e. <em class="term">geometry</em>. The world also contains <em class="term">light sources</em>, which scatter light rays onto the geometry. Based on physical properties of the geometry, the light bounces off the geometry again and again, illuminating the scene. This is the basis of the <em class="term">rendering equation</em>.</p>
+
+  <div class="figure" id="figure-light-bounce"><p class="caption">Light rays bouncing off geometry. Notice the indirect bounces.</p></div>
+
+  <p>To actually view this scene, we place a camera in the world. This is analogous to our eyes. Light rays bouncing off the geometry converge at the camera, and we record where those rays end up on an imaginary canvas called the <em class="term">image plane</em>. In doing so, we have to determine what is actually visible to each point on the image plane.</p>
+
+  <div class="figure" id="figure-image-plane"><p class="caption">Light rays originating from the geometry converge at the camera, passing through the image plane. The convergence causes objects farther from the camera to appear smaller, an effect known as <em class="term">perspective</em>.</p></div>
+
+  <p>There are two approaches to solving the visibility problem. The conceptually simple approach is <em class="term">ray tracing</em>, which <em class="term">simulates</em> light rays reaching the camera by sending out rays <em>from</em> the camera, then tracing its path as it travels to a light source. This maps well to how light physically travels in the real world, making it simple to simulate real-world effects such as shadows and reflections. These effects are collectively known as <em class="term">global illumination</em>.</p>
+
+  <div class="figure" id="figure-ray-tracing-examples">
+    <img width="1024" title="By Gilles Tran (http://www.oyonale.com/modeles.php?lang=en&page=40) [Public domain], via Wikimedia Commons" alt="Glasses, rendered using POV-Ray" src="../img/wikimedia-raytraced.png"/>
+
+    <p class="caption">An example of a ray traced image, demonstrating global illumination effects such as shadows, reflection and refraction. Via Wikimedia Commons.</p>
+  </div>
+
+  <p>However, this simulation is slow. An alternate approach is <em class="term">rasterization</em>. In this approach, we first <em class="term">project</em> the geometry onto the image plane, then work directly on the perspective-corrected representation of the geometry. This approach can be implemented more efficiently, but at the cost of increased complexity. Global illumanation effects need to be special-cased one by one, often requiring multiple rendering passes and pre-computation ("baking").</p>
+
+  <div class="figure" id="figure-rasterization">
+    <p class="caption">Rasterization works by projecting the geometry onto the image plane, then checking which pixels on the plane are covered by the projected geometry.</p>
+  </div>
+
+  <p>Ray tracing is usually used for offline rendering, such as in Pixar films, and rasterization for realtime graphics, such as games. The latter is the approach used by GPUs.</p>
+</body>
+</html>
