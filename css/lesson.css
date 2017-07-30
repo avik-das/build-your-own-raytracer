@@ -12,6 +12,7 @@
 body {
   width: 30em;
   margin: auto;
+  padding-bottom: 1em;
   font: 20pt 'Linden Hill';
   color: #333;
 }
@@ -27,6 +28,14 @@ h1 + address {
 
 h1 + address:before {
   content: "by ";
+}
+
+body.project h2.step {
+  counter-increment: project-step;
+}
+
+body.project h2.step::before {
+  content: "Step " counter(project-step) ": ";
 }
 
 p {
@@ -90,4 +99,8 @@ ul.math-list {
   background: #fffccc;
   border: 2px solid #cca;
   border-radius: 10px;
+}
+
+.exercise {
+  font-style: italic;
 }

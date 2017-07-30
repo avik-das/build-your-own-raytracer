@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Build your own 3D renderer - Casting rays from the camera to the image plane</title>
+  <link rel="stylesheet" href="../css/lesson.css">
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</head>
+<body class="project">
+  <h1>Project 1: Casting rays from the camera to the image plane</h1>
+
+  <h2>Goals</h2>
+
+  <ul>
+    <li>Build the basic infrastructure for a ray tracer</li>
+    <li>Construct foundational data structures such as vectors</li>
+    <li>Render a simple image</li>
+  </ul>
+
+  <p>In this project, we will build the foundations of a ray tracer. As a starting point, we will start with a repository with helper functions for writing pixels to an image, then build all the data structures we need for a ray tracer. In the end, you will have an image like the following:</p>
+
+  <div class="figure" id="figure-cast-rays-visualized">
+    <img width="256" alt="A two-dimension gradient, with blue-green at the top-left, yellow at the top-right, blue at the bottom-left and pink at the bottom-right" src="../img/cast-rays-visualized.png"/>
+
+    <p class="caption">The output of this project. As in all the projects, your output may not look exactly the same, and experimentation is encouraged.</p>
+  </div>
+
+  <h2 class="step">Represent a 3D vector</h2>
+
+  <p>One of the fundamental data structures in 3D graphics is the 3D vector. As explained in <a href="refresher-on-vectors.html">the refresher on vectors</a>, a 3D vector consists of three coordinates: `x`, `y` and `z`.</p>
+
+  <p>Create a representation of a 3D vector with three coordinates. The coordinates will not be integers. Throughout this project and the following ones, you will be adding functionality to this representation.</p>
+
+  <h2 class="step">Represent the image plane and camera</h2>
+
+  <div class="figure" id="figure-casting-ray-from-camera-to-image-plane">
+    <img width="512" alt="A ray is cast from the camera to a point on the image plane" src="../img/casting-ray-from-camera-to-image-plane.png"/>
+
+    <p class="caption">A ray is constructed, originating at the camera and passing through a point on the image plane.</p>
+  </div>
+
+  <p>In order to have an image to view, we need an image plane. Represent an image plane in your scene using four vectors: `vec bbx_1`, `vec bbx_2`, `vec bbx_3` and `vec bbx_4`. These are the top-left, top-right, bottom-left and bottom-right corners of the image plane respectively. A good location is:</p>
+
+  <p>
+    \begin{array}{rr}
+    \vec{\mathbf{x_1}} &amp; = \langle &amp;  1, &amp;  0.75, &amp; 0 &amp; \rangle \\
+    \vec{\mathbf{x_2}} &amp; = \langle &amp; -1, &amp;  0.75, &amp; 0 &amp; \rangle \\
+    \vec{\mathbf{x_3}} &amp; = \langle &amp;  1, &amp; -0.75, &amp; 0 &amp; \rangle \\
+    \vec{\mathbf{x_4}} &amp; = \langle &amp; -1, &amp; -0.75, &amp; 0 &amp; \rangle \\
+    \end{array}
+  </p>
+
+  <p>You can place the points anywhere you like in the world, but you'll want the image plane to be "flat" and have the same aspect ratio as your image. For example, the reference image above is 256&times;192, so the image plane should have a width-to-height ratio of 4:3. <span class="exercise">Exercise: what happens if the image plane has a different aspect ratio, or if it is not flat?</span></p>
+
+  <p>Next, represent a camera as a single vector. Remember that you'll be looking out of the camera toward the image plane, so a good place to put the camera is near the center of the image plane, such as at `vec bbc = (:0, 0, -1:)`. <span class="exercise">Exercise: what happens if the camea is placed closer or farther from the image plane? What if it's positioned to one side?</span></p>
+
+  <h2 class="step">Determine where to cast rays to</h2>
+
+  <p>Loop through each pixel in the image. Figure out what percentage `alpha` and `beta` along the horizontal and vertical directions it is on the image. For example, if you're looking at the 10th pixel in the horizontal direction, and the width of the image is 100, what is the value of `alpha`?</p>
+
+  <p>Using the values of `alpha` and `beta`, perform bilinear interpolation between the corners of the image plane. You'll need to implement the ability to add two vectors, as well as scale a vector by a scalar. Then, you'll need to implement the equations below:</p>
+
+  <div class="figure" id="figure-bilinear-interpolation">
+    <img width="512" alt="Linearly interpolating in one direction, then interpolating the results in the other direction" src="../img/bilinear-interpolation.png"/>
+  </div>
+
+  <p>
+    \begin{align}
+    \vec{\mathbf{t}} &amp; = (1 - \alpha) \vec{\mathbf{x}_1} + \alpha \vec{\mathbf{x}_2} \\
+    \vec{\mathbf{b}} &amp; = (1 - \alpha) \vec{\mathbf{x}_3} + \alpha \vec{\mathbf{x}_4} \\
+    \vec{\mathbf{p}} &amp; = (1 - \beta) \vec{\mathbf{t}} + \beta \vec{\mathbf{b}}
+    \end{align}
+  </p>
+
+  <h2 class="step">Represent a ray</h2>
+
+  <p>Now that you have a point `vec bbp` on the image plane, create a representation of a ray containing the following two pieces of information:</p>
+
+  <ol>
+    <li>The origin, which is the location of the camera: `vec bbc`.</li>
+    <li>The direction: `(vec bbp - vec bbc)`.</li>
+  </ol>
+
+  <h2 class="step">Visualize the rays</h2>
+
+  <p>While this is enough to move onto the next section, we should verify that our rays have been calculated correctly by visualizing the rays. All of the rays will have the same origin (the camera vector, so we want to visualize the direction). If you used the image plane and camera locations from above, then all of the directions will have the same `z`-coordinate. <span class="exercise">Exercise: show this is the case. What is the value of the `z`-coordinate?</span></p>
+
+  <p>Figure out what the minimum and maximum values of `x` and `y` are. Convert the `x`-coordinates into the range `[0, 255]` and use that value as the red component of the color at the corresponding pixel. Do the same for the `y`-coordinate and use it as the value of the green component. Plot these pixels on the image. <span class="exercise">Exercise: where in the image is the red component the smallest, and where is it the largest? How about the green component? What does this imply for the colors you expect to see at the four corners of the image?</span></p>
+
+  <p>With the locations of the image plane and camera as above, and adding a splash of blue to each pixel, this is the resulting image:</p>
+
+  <div class="figure" id="figure-cast-rays-visualized">
+    <img width="256" alt="A two-dimension gradient, with blue-green at the top-left, yellow at the top-right, blue at the bottom-left and pink at the bottom-right" src="../img/cast-rays-visualized.png"/>
+  </div>
+
+</body>
+</html>
