@@ -14,7 +14,7 @@
     <p class="caption">Sampling once per pixel results in aliasing, characterized by jagged edges.</p>
   </div>
 
-  <p>The solution is to cast multiple rays per pixel&mdash;each at a differnet point inside the pixel&mdash;then average the results together for that pixel. This approach is known as <em class="term">distributed ray tracing</em>, where multiple rays are cast and the results averaged. While the locations sampled can be regularly spaced inside the pixel, we can also cast rays to randomized locations within the pixel, an approach known as <em class="term">stochastic ray tracing</em>.</p>
+  <p>The solution is to cast multiple rays per pixel&mdash;each at a different point inside the pixel&mdash;then average the results together for that pixel. This approach is known as <em class="term">distributed ray tracing</em>, where multiple rays are cast and the results averaged. While the locations sampled can be regularly spaced inside the pixel, we can also cast rays to randomized locations within the pixel, an approach known as <em class="term">stochastic ray tracing</em>.</p>
 
   <div class="figure" id="figure-multi-sampling">
     <img width="768" alt="In the first image, all four samples intersect with geometry, so the pixel is heavily shaded. In the next two images, two of the four samples intersect with geometry, so the pixel is lightly shaded. In the last image, no sample intersects with geometry, so the pixel is not shaded at all." src="../img/multi-sampling.png"/>
