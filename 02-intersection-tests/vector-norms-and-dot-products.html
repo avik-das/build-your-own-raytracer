@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Build your own 3D renderer - Vector norms and dot products</title>
+  <link rel="stylesheet" href="../css/lesson.css">
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</head>
+<body>
+  <h1>Build your own 3D renderer - Vector norms and dot products</h1>
+
+  <p class="aside">You don't need to understand all the math in this section. What's important is knowing the terms (highlighted in yellow), and bolded sections at the bottom.</p>
+
+  <p>Every vector has a <em class="term">length</em>, also known as a <em class="term">norm</em> or <em class="term">magnitude</em>. The length of a vector `vec bbv` is denoted `||vec bbv||`. A vector with length `1` is called a <em class="term">unit vector</em>, often denoted `hat bbv`.</p>
+
+  <div class="figure" id="figure-vectors-with-same-length">
+    <img width="384" alt="Five vectors, pointing in different directions, with the same length. The vectors all touch a circle." src="../img/vectors-with-same-length.png"/>
+
+    <p class="caption">A collection of vectors with the same length.</p>
+  </div>
+  
+  <p>Given a vector with coordinates `x`, `y` and `z`, the Pythagorean theorem tells us the vector's length is `sqrt{x^2 + y^2 + z^2}`.</p>
+
+  <div class="figure" id="figure-pythagorean-theorem">
+    <img width="1024" alt="A vector forms a right triangle with the coordinate axes. This allows us to apply the Pythagorean theorem to find the length of the vector." src="../img/vector-pythagorean-theorem.png"/>
+
+    <p class="caption">Computing the length of `vec bbv` using the Pythagorean theorem.</p>
+  </div>
+
+  <p>If we have a vector `vec bbv` that is <em>not</em> a unit vector, we can find a unit vector pointing in the same direction. To do this, we divide the vector by its length: `hat bbv = vec bbv / ||vec bbv||`.</p>
+
+  <div class="figure" id="figure-vector-normalization">
+    <img width="256" alt="A vector and its corresponding unit vector" src="../img/vector-normalization.png"/>
+
+    <p class="caption">A vector `vec bbv` and the unit vector pointing in the same direction, `hat bbv`.</p>
+  </div>
+
+  <p>Given two vectors `vec bba` and `vec bb b`, we can compute the <em class="term">projection</em> of `vec bb b` onto `vec bba`. This is basically `vec bb b`'s "shadow" on top of `vec bba`. The projection tells us "how much" of `vec bb b` extends in the direction of `vec bba`.</p>
+
+  <div class="figure" id="figure-vector-projection">
+    <img width="384" alt="" src="../img/vector-projection.png"/>
+
+    <p class="caption">The projection of a vector `vec bb b` onto another vector `vec bba`.</p>
+  </div>
+
+  <p>With trigonometry, we can deduce the projection is `||vec bb b||cos theta`, where `theta` is the angle between `vec bba` and `vec bb b`.</p>
+
+  <div class="figure" id="figure-vector-projection-computation">
+    <img width="384" alt="" src="../img/vector-projection-computation.png"/>
+
+    <p class="caption">With trigonometry, we see that the projection of `vec bb b` onto `vec bba` is `||vec bb b||cos theta`.</p>
+  </div>
+
+  <p>Both geometrically and algebraically, we can verify the projection is just `||vec bb b||` when `vec bba` and `vec bb b` point in the same direction (`theta = 0^@` &#x21d2; `cos theta = 1`). The projection is zero when the two vectors are perpendicular (`theta = 90^@` &#x21d2; `cos theta = 0`). Finally, when `vec bba` and `vec bb b` point in "opposing" directions (`90^@ &lt; theta &lt; 270^@`), the projection is negative.</p>
+
+  <div class="figure" id="figure-vector-projection-directions">
+    <img width="1024" alt="" src="../img/vector-projection-directions.png"/>
+
+    <p class="caption">When two vectors `vec bba` and `vec bb b` point in the same direction, the projection of `vec bb b` onto `vec bba` is just the length of `vec bb b`. If the two vectors are perpendicular, the projection is zero. And if they point in opposing directions, the projection is negative.</p>
+  </div>
+
+  <p>From the projection, we can compute `||vec bba||||vec bb b||cos theta`, a quantity known as the <em class="term">dot product</em> of `vec bba` and `vec bb b`. This quantity is denoted `vec bba * vec bb b` or `(:vec bba, vec bb b:)`. <strong>The important feature of the dot product is that it encodes the angle between two vectors.</strong></p>
+
+  <p>With some algebra, we can compute `(:a, b, c:) * (:d, e, f:) = ad + be + cf`, that is <strong>we can compute the dot product of two vectors by multiply their corresponding coordinates and adding together the results</strong>.</p>
+  
+  <p>This also implies that `||(:x, y, z:)||^2 = x^2 + y^2 + z^2 = (:x, y, z:) * (:x, y, z:)`, that is <strong>the squared length of a vector is the dot product of the vector with itself</strong>.</p>
+
+  <p>Some properties of the dot product useful in the sphere-ray intersection test:</p>
+
+  <ul class="math-list">
+    <li>`c (vec bba * vec bb b) = (c vec bba) * vec bb b = vec bba * (c vec bb b)`</li>
+    <li>`vec bba * (vec bb b + vec bbc) = vec bba * vec bb b + vec bba * vec bbc`</li>
+  </ul>
+</body>
+</html>

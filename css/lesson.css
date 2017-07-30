@@ -33,6 +33,13 @@ ul li {
   margin-bottom: 0.25em;
 }
 
+ul.math-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin-left: 0;
+  text-align: center;
+}
+
 .term {
   color: #000;
   display: inline-box;
