@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Build your own 3D renderer - Rendering shaded spheres</title>
+  <link rel="stylesheet" href="../css/lesson.css">
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</head>
+<body class="project">
+  <h1>Project 3: Rendering shaded spheres</h1>
+
+  <h2>Goals</h2>
+
+  <ul>
+    <li>Represent lights in the scene</li>
+    <li>Represent the properties of an object's material</li>
+    <li>Implement the Phong illumination model</li>
+  </ul>
+
+  <p>In this project, we will add lights to the scene and have them interact with the spheres we added before. The spheres themselves will now a have a <em class="term">material</em> that defines how they react to incoming light.</p>
+
+  <div class="figure" id="figure-shaded-spheres">
+    <img width="256" alt="Three spheres of three different colors. All the spheres are shaded according to the light sources and viewing angle." src="../img/shaded-spheres.png"/>
+
+    <p class="caption">Three spheres according to the Phong illumination model.</p>
+  </div>
+
+  <h2 class="step">Add lights to the world</h2>
+
+  <p>Create a representation of a light consisting of three pieces of information:</p>
+
+  <ul>
+    <li>A location in the world. This is a 3D vector specifying where the light is shining from.</li>
+    <li>A diffuse intensity, `i_d`. This is a color.</li>
+    <li>A specular intensity, `i_s`. This is also a color.</li>
+  </ul>
+
+  <p>Add a few lights to the scene, with different locations and intensities. Also add another color to the scene: the ambient light intensity `i_a`.</a>
+
+  <h2 class="step">Add materials to the spheres</h2>
+
+  <p>Create a representation of a material with four pieces of information:</p>
+
+  <ul>
+    <li><p>An ambient constant, `k_a`. This is the percentage of ambient light the material reflects. Technically, this should be its own data type with three components, one for each of the red, green and blue components of the incoming light. However, because we're representing colors with components in the range `[0, 1]`, we can simply reuse the color data type.</p></li>
+    <li><p>A diffuse constant, `k_d`. This is the percentage of diffuse light the material reflects.</p></li>
+    <li><p>A specular constant, `k_s`. This is the percentage of specular light the material reflects.</p></li>
+    <li><p>A shininess factor, `alpha`. This is a scalar. The higher the value, the shinier the material.</p></li>
+  </ul>
+
+  <p>Give each sphere a material with the above properties.</p>
+
+  <h2 class="step">Shade objects using the Phong illumination model</h2>
+
+  <p>In the last project, we found certain rays intersected with certain spheres. Each time this happens, do the following:</p>
+
+  <ol>
+    <li>
+      <p>Calculate the surface normal, `hat bbN`, on the sphere at the point of intersection, `vec bbp`. Given the value of `t` at the intersection, the point of intersection is the ray evaluated at that `t`: `vec bbp = vec bbo + t vec bbd`.</p>
+
+      <div class="figure" id="figure-sphere-surface-normal">
+        <img width="384" alt="A vector pointing from a sphere's center to a point on the surface, giving us the surface normal" src="../img/sphere-surface-normal.png"/>
+
+        <p class="caption">To find the surface normal `hat bbN` at point `vec bbp`, take the vector between `vec bbp` and the sphere's center `vec bbc`, then normalize it.</p>
+      </div>
+
+      <p>Given the point of intersection, the surface normal on the sphere points in the direction `vec bbN = vec bbp - vec bbc`, where `vec bbc` is the center of the sphere. Normalize this vector to get `hat bbN`.</p>
+    </li>
+
+    <li>
+      <p>For each light in the scene, calculate the light vector, `hat bbL`. To calculate this, take the location of the light, subtract the intersection point and normalize the resulting vector.</p>
+
+      <p>For that light, calculate the diffuse component, `k_d i_d (\hat bbN * \hat bbL)`.</p>
+    </li>
+
+    <li><p>For each light, calculate the reflectance vector: `hat bbR = 2 (hat bbN * hat bbL) hat bbN - hat bbL`. Now calculate the specular component, `k_s i_s (hat bbV * hat bbR)^alpha`.</p></li>
+
+    <li><p>Finally, calculate the ambient term, independent of any lights: `k_a i_a`.</p></li>
+
+    <li><p>Add up all these terms across all the lights. This is the color of the pixel corresponding the ray being considered.</p></li>
+  </ol>
+
+  <p>In the reference image, we added three spheres of three different colors. There are also two lights on opposite ends of the spheres. The resulting image looks like this:</p>
+
+  <div class="figure" id="figure-shaded-spheres">
+    <img width="256" alt="Three spheres of three different colors. All the spheres are shaded according to the light sources and viewing angle." src="../img/shaded-spheres.png"/>
+  </div>
+</body>
+</html>
