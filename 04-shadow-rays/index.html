@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Build your own 3D renderer - Casting rays to render shadows</title>
+  <link rel="stylesheet" href="../css/lesson.css">
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</head>
+<body>
+  <h1>Build your own 3D renderer - Casting rays to render shadows</h1>
+
+  <p>Unil now, two objects have not interacted with each other. However, one piece of geometry might block light from reaching another, resulting in a <em class="term">shadow</em>.</p>
+
+  <div class="figure" id="figure-shadows">
+    <img width="768" alt="A ray is cast from a point on an object to a light source. On the left, the ray intersects another object before hitting the light source. On the right, the ray does not hit another object before hitting the light source." src="../img/shadow-rays.png"/>
+
+    <p class="caption">When the ray between a point on an object and a light source is intersected by another object, the point is in shadow. Otherwise, the point is not in shadow from that light source, though it may be in shadow from another light source.</p>
+  </div>
+
+  <p>Suppose we are trying to find the color at a certain point on an object. We will do the following:</p>
+
+  <ol>
+    <li><p>Cast a ray from that point to each light source.</p></li>
+    <li><p>For each ray, we will perform an intersection test with each other piece of geometry in the scene.</p></li>
+    <li><p>If the ray intersects with any geometry before reaching the light source (intersecting at `0 &lt; t &lt;= 1`), the point is in shadow from that light source.</p></li>
+  </ol>
+
+  <p>If the point is in shadow from a particular light source, we will ignore the diffuse and specular contributions from that light source when computing the Phong illumination.</p>
+
+  <p>We will continue including the contributions from any lights that are not blocked by other objects. We will also always include the ambient term. This term approximates indirect lighting, ensuring shadowed areas are not completely black.</p>
+</body>
+</html>
