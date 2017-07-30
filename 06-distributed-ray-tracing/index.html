@@ -1,0 +1,43 @@
+<!DOCTYPE html> <html lang="en"> <head>
+  <meta charset="UTF-8">
+  <title>Build your own 3D renderer - Distributed ray tracing and anti-aliasing</title>
+  <link rel="stylesheet" href="../css/lesson.css">
+</head>
+<body>
+  <h1>Build your own 3D renderer - Distributed ray tracing and anti-aliasing</h1>
+
+  <p>The images produced by our ray tracer so far have jagged edges around the geometry in the scene. This is because we have only cast one ray per pixel. That ray either sees some geometry, or it doesn't, leading to sharp transitions. This is known as <em class="term">aliasing</em>, because, due to the imprecision of sampling once per pixel, two different scenes may produce the same output image.</p>
+
+  <div class="figure" id="figure-single-sampling">
+    <img width="768" alt="A shape is covered only partially by certain pixels, but depending on where the sample is taken, the pixel either sees the shape or doesn't. There is no in-between." src="../img/single-sampling.png"/>
+
+    <p class="caption">Sampling once per pixel results in aliasing, characterized by jagged edges.</p>
+  </div>
+
+  <p>The solution is to cast multiple rays per pixel&mdash;each at a differnet point inside the pixel&mdash;then average the results together for that pixel. This approach is known as <em class="term">distributed ray tracing</em>, where multiple rays are cast and the results averaged. While the locations sampled can be regularly spaced inside the pixel, we can also cast rays to randomized locations within the pixel, an approach known as <em class="term">stochastic ray tracing</em>.</p>
+
+  <div class="figure" id="figure-multi-sampling">
+    <img width="768" alt="In the first image, all four samples intersect with geometry, so the pixel is heavily shaded. In the next two images, two of the four samples intersect with geometry, so the pixel is lightly shaded. In the last image, no sample intersects with geometry, so the pixel is not shaded at all." src="../img/multi-sampling.png"/>
+
+    <p class="caption">Sampling multiple times per pixel allows smoother transitions between visible and not visible.</p>
+  </div>
+
+  <p>When used to avoid aliasing, the technique is called <em class="term">multisampling antialiasing</em>, or <em class="term">MSAA</em>. Often, the number of samples is used in the name, such as 4&times; MSAA.</p>
+
+  <p>The increased quality comes at a cost. The number of rays cast in total is multiplied by the number of samples per pixel, resulting in doing that many times more work for a single image.</p>
+
+  <p>The general principle of distributed ray tracing can be applied to simulate many photorealistic effects:</p>
+
+  <ul>
+    <li><p>By distributing the rays through time, a moving object will be subject to <em class="term">motion blur</em>.</p></li>
+    <li><p>By distributing the origin of the camera ray over a 2D interval, <em class="term">depth of field</em> can be simulated.</p></li>
+    <li><p>By modeling a light source as a 2D interval and distributing shadow rays over that interval, <em class="term">soft shadows</em> can be rendered.</p></li>
+  </ul>
+
+  <div class="figure" id="figure-soft-shadows">
+    <img width="1024" alt="On the left, a point is not in shadow because it can see the entire light source. In the middle, a point is partially in shadow because it can see part of the light source. Or the right, a point is completely in shadow because it can't see any part of the light source." src="../img/soft-shadows.png"/>
+
+    <p class="caption">If a light source is modelled as an interval, then a point can be partially in shadow (penumbra) or completely in shadow (umbra). This is one application of distributed ray tracing, used here to achieve soft shadows.</p>
+  </div>
+</body>
+</html>
