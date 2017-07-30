@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Build your own 3D renderer - Recursive ray tracing and reflections</title>
+  <link rel="stylesheet" href="../css/lesson.css">
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</head>
+<body>
+  <h1>Build your own 3D renderer - Recursive ray tracing and reflections</h1>
+
+  <p>Light bounces of all geometry, but different materials bounce light in different ways. Some materials are highly <em class="term">diffuse</em>, meaning they scatter bounced light in many directions, sending a little bit of light in each direction. In contrast, some materials are highly <em class="term">reflective</em>, meaning they send bounced light in one direction. Many materials are a combination of the two.</em>
+
+  <div class="figure" id="figure-diffuse-reflective">
+    <img width="512" alt="On the left, a diffuse surface receives incoming light and scatters light in many directions. On the right, a reflective surface receives incoming light and sends it out in a reflected direction." src="../img/diffuse-reflective.png"/>
+
+    <p class="caption">A diffuse surface scatters light in many directions, while a reflective surface concentrates light in one direction.</p>
+  </div>
+
+  <p>The angle of the reflected light depends on the angle of the incoming light, that is the <em class="term">angle of incidence</em>. We compute the reflection direction just like we did when computing the specular component in the Phong illumination model, but this time based on the view direction: `hat bbR = 2(hat bbN * hat bbV) hat bbN - hat bbV`. To see the derivation of this, refer back to <a href="../03-phong-shading">the section on the Phong illumination model</a>.</p>
+
+  <div class="figure" id="figure-angle-of-incidence">
+    <img width="384" alt="The incoming light forms an angle with the surface normal to an object. The reflected light forms the same angle with the normal." src="../img/angle-of-incidence.png"/>
+
+    <p class="caption">The reflection angle is the same as the angle of incidence.</p>
+  </div>
+
+  <p>To find what would be reflected back to the viewer, we cast a ray starting at the viewed point on the geometry, going in the reflected direction `vec bbR`. This is the basis of <em class="term">recursive ray tracing</em>, where the usual ray tracing algorithm is applied to compute the reflection. This can cause further reflections, so we must limit the recursion depth&mdash;corresponding to the number of light bounces simulated&mdash;to some constant.</p>
+
+  <p>In the Phong illumination model, the ambient term approximates light left over after many bounces, and the specular term approximates the reflection of a light source sending light directly to an object. Thus, these terms do not change due to reflection. Similarly, the diffuse term is still calculated the same way for a mostly reflective object, but its contribution should be diminished to account for the fact that only a small portion of the incoming light is scattered. This is done by reducing `k_d`, the diffuse constant, for the the object.</p>
+
+  <p>Finally, we add in one more term to the Phong illumination model: the reflected light weighted by a reflectivity constant `k_r`. Usually, the larger `k_r` is, the lower `k_d` is, and vice versa.</p>
+
+  <p>Recursive ray tracing is also the basis of simulating <em class="term">refraction</em>, where light passes <em>through</em> a translucent object. While we will not implement refraction rays in our ray tracer, the general principle is mostly the same as the reflectance rays, differing only in the direction the refraction ray is cast.</p>
+</body>
+</html>
