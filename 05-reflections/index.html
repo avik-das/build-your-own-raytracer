@@ -17,7 +17,7 @@
     <p class="caption">A diffuse surface scatters light in many directions, while a reflective surface concentrates light in one direction.</p>
   </div>
 
-  <p>The angle of the reflected light depends on the angle of the incoming light, that is the <em class="term">angle of incidence</em>. We compute the reflection direction just like we did when computing the specular component in the Phong illumination model, but this time based on the view direction: `hat bbR = 2(hat bbN * hat bbV) hat bbN - hat bbV`. To see the derivation of this, refer back to <a href="../03-phong-shading">the section on the Phong illumination model</a>.</p>
+  <p>The angle of the reflected light depends on the angle of the incoming light, that is the <em class="term">angle of incidence</em>. We compute the reflection direction just like we did when computing the specular component in the Phong illumination model, but this time based on the view direction: `hat bbR = 2(hat bbN * hat bbV) hat bbN - hat bbV`. Here, `hat bbV` is just the direction of the ray we cast, but normalized. To see the derivation of this, refer back to <a href="../03-phong-shading">the section on the Phong illumination model</a>.</p>
 
   <div class="figure" id="figure-angle-of-incidence">
     <img width="384" alt="The incoming light forms an angle with the surface normal to an object. The reflected light forms the same angle with the normal." src="../img/angle-of-incidence.png"/>
