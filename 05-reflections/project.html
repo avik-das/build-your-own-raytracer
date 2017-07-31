@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Build your own 3D renderer - Rendering reflections</title>
+  <link rel="stylesheet" href="../css/lesson.css">
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</head>
+<body class="project">
+  <h1>Project 5: Rendering reflections</h1>
+
+  <h2>Goals</h2>
+
+  <ul>
+    <li>Recursively apply the ray tracing algorithm to render reflections</li>
+  </ul>
+
+  <p>In this project, we will cast a ray from each intersection point at an angle equal to the angle of incidence. This will allow us to see what that intersection point is "seeing", meaning we will be performing the ray tracing algorithm recursively.</p>
+
+  <div class="figure" id="figure-spheres-with-reflections">
+    <img width="256" alt="Three spheres of three different colors. Each sphere shows reflected images of at least one of the other spheres." src="../img/spheres-with-reflections.png"/>
+
+    <p class="caption">Each of the three spheres shows a reflected image of at least one of the other spheres. Notice the reflections are tinted to the color of the sphere on which the reflection appears.</p>
+  </div>
+
+  <h2 class="step">Model the reflectivity of a material</h2>
+
+  <p>In each of the materials in the scene, add a new constant, `k_r`, representing the reflectivity of a material. This constant, like the other material constants, is a color, so the material reflects different amounts for each of the red, green and blue components.</p>
+
+  <p>If you set a sphere's reflectivity to have a high component, reduce that sphere's diffuse constant for that same component. This simulates an object being more reflective, and thus scattering light in fewer directions.</p>
+
+  <h2 class="step">Set up a recursion limit</h2>
+
+  <p>In preparation to call the ray tracing algorithm recursively, we need to ensure the entire algorithm is packaged up as a function. The function simply takes a ray and the scene, then returns a color stating what the corresponding pixel should be colored. You have have already written your algorithm this way.</p>
+
+  <p>Once the algorithm is available as a function, include one more parameter. This parameter is simply the current recursion depth, and we will not call the algorithm recursively once the maximum depth is reached. A good depth is three bounces.</p>
+  
+  <h2 class="step">Calculate the reflectance vector</h2>
+
+  <div class="figure" id="figure-reflectance-vector">
+    <img width="512" alt="The " src="../img/reflectance-vector.png"/>
+
+    <p class="caption">This shows a light vector being reflected across the surface normal. For calculating reflections, we care about the view vector, `hat bbV`, described below, instead of the light vector.</p>
+  </div>
+
+  <p>Each time a ray intersects a sphere, calculate the reflectance vector. Start by taking taking the direction of the incoming ray and normalize it. This is `hat bbV`. So far, the incoming ray is just the ray we cast from the camera, but once we start applying the ray tracing algorithm recursively, this will be whatever ray was cast in the previous step.</p>
+
+  <p>Now, calculate the reflectance vector as `hat bbR = 2(hat bbN * hat bbV)hat bbN - hat bbV`.</p>
+
+  <p>All of this is only necessary if the maximum recursion depth has not been reached.</p>
+
+  <h2 class="step">Recursively apply the ray tracing algorithm</h2>
+
+  <p>Call the ray tracing algorithm using the reflectance vector, decreasing the recursion depth by one. The only difference for this call should be that for the resulting intersections, we don't care if `t &gt; 1`, because there is no image plane for these reflectance vectors (equivalently, the image plane is at `t = 0`).</p>
+
+  <p>Once a color is returned from this recursive call, multiply it by `k_r` and add it to the color calculated by the Phong illumination model. Do this regardless of whether the intersection point is in shadow or not.</p>
+
+  <p>In the reference image, we can see clear reflections on the spheres:</p>
+
+  <div class="figure" id="figure-spheres-with-reflections">
+    <img width="256" alt="Three spheres of three different colors. Each sphere shows reflected images of at least one of the other spheres." src="../img/spheres-with-reflections.png"/>
+  </div>
+</body>
+</html>
