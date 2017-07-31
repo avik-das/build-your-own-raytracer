@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Build your own 3D renderer - Anti-aliasing</title>
+  <link rel="stylesheet" href="../css/lesson.css">
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</head>
+<body class="project">
+  <h1>Project 6: Anti-aliasing</h1>
+
+  <h2>Goals</h2>
+
+  <ul>
+    <li>Sample multiple points on the image plane per pixel to avoid aliasing</li>
+  </ul>
+
+  <p>In this project, we will sample multiple points on the image plane for each pixel. The resulting colors for each of these points will be averaged to yield the final color of that pixel.</p>
+
+  <div class="figure" id="figure-anti-aliased-spheres">
+    <img width="256" alt="The original rendering with jagged edges." src="../img/spheres-with-reflections.png"/>
+    <img width="256" alt="The same rendering, with anti-aliasing." src="../img/anti-aliased-spheres.png"/>
+
+    <p class="caption">Two renderings of the same scene. The left one uses one sample per pixel, resulting in jagged edges. The right one uses 9 samples per pixel, resulting in much smoother edges.</p>
+  </div>
+
+  <h2 class="step">Calculate multiple points within one pixel boundary</h2>
+
+  <p>Suppose you cast a ray from the camera to a point on the image plane, corresponding to a particular percentage `alpha` in the horizontal direction. Let's also say that `alpha` increases by `Delta alpha` from one pixel to the next, that is the next pixel corresponds to a percentage of `alpha + Delta alpha`. <span class="exercise">Exercise: how do you calculate `Delta alpha`?</span></p>
+
+  <p>Now, instead of only finding a point `vec bbp` on the image plane corresponding to `alpha`, find two points corresponding to `alpha` and `alpha + {Delta alpha}/2`. Similarly, vary `beta`, finding a point corresponding to `beta` and `beta + {Delta beta}/2`. Combining the variation in `alpha` and `beta` will give you four points in total.</p>
+
+  <p class="exercise">Exercise: how would you find 9 points per pixel instead? How about 6 points?</p>
+
+  <h2 class="step">Average the results of the samples</h2>
+
+  <p>For each of the calculated points for a single pixel, apply the usual ray tracing algorithm. Then, add up the results and divide by the number of points sampled for that pixel. This value is the color of that pixel.</p>
+
+  <div class="figure" id="figure-multi-sampling">
+    <img width="768" alt="In the first image, all four samples intersect with geometry, so the pixel is heavily shaded. In the next two images, two of the four samples intersect with geometry, so the pixel is lightly shaded. In the last image, no sample intersects with geometry, so the pixel is not shaded at all." src="../img/multi-sampling.png"/>
+
+    <p class="caption">Sampling multiple times per pixel allows smoother transitions between visible and not visible.</p>
+  </div>
+</body>
+</html>
