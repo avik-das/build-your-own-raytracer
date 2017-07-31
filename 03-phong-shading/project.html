@@ -71,9 +71,23 @@
       <p>For each light in the scene, calculate the light vector, `hat bbL`. To calculate this, take the location of the light, subtract the intersection point and normalize the resulting vector.</p>
 
       <p>For that light, calculate the diffuse component, `k_d i_d (\hat bbN * \hat bbL)`.</p>
+
+      <div class="figure" id="figure-phong-diffuse">
+        <img width="512" alt="The surface normal and the light vector" src="../img/phong-diffuse.png"/>
+
+        <p class="caption">The diffuse component at a point `vec bbp` depends on the angle between two vectors. The first vector is the surface normal at the point, `hat bbN`. The second is the normalized vector between the point and the light, `hat bbL`.</p>
+      </div>
     </li>
 
-    <li><p>For each light, calculate the reflectance vector: `hat bbR = 2 (hat bbN * hat bbL) hat bbN - hat bbL`. Now calculate the specular component, `k_s i_s (hat bbV * hat bbR)^alpha`.</p></li>
+    <li>
+      <p>For each light, calculate the reflectance vector: `hat bbR = 2 (hat bbN * hat bbL) hat bbN - hat bbL`. Now calculate the specular component, `k_s i_s (hat bbV * hat bbR)^alpha`.</p>
+    
+      <div class="figure" id="figure-phong-specular">
+        <img width="512" alt="The surface normal, the light vector, the reflectance vector and the view vector" src="../img/phong-specular.png"/>
+
+        <p class="caption">The specular highlight at a point `vec bbp` depends on the angle between the reflectance vector `hat bbR` and the viewing angle `hat bbV`. The reflectance vector depends on the light vector `hat bbL`.</p>
+      </div>
+    </li>
 
     <li><p>Finally, calculate the ambient term, independent of any lights: `k_a i_a`.</p></li>
 
