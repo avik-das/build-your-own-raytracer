@@ -127,3 +127,7 @@ ul.math-list {
 .exercise {
   font-style: italic;
 }
+
+pre {
+  font-size: 75%;
+}
