@@ -36,7 +36,7 @@
   
   <h2 class="step">Determine if a sphere is in shadow from a light</h2>
 
-  <p>For each shadow ray, loop through all the objects in the scene except the current one (the one with the interesection we're trying to shade. If the shadow ray intersects any of these objects with `0 &lt; t &lt; 1`, the original intersection point is in shadow from the corresponding light.</p>
+  <p>For each shadow ray, loop through all the objects in the scene except the current one (the one with the interesection we're trying to shade). If the shadow ray intersects any of these objects with `0 &lt; t &lt; 1`, the original intersection point is in shadow from the corresponding light.</p>
 
   <p>If a point on a sphere is in shadow from a particular light, don't include the diffuse and specular terms of the Phong illumination model <em>for that light</em>. Continue including contributions from any lights that are not blocked by other objects.</p>
 </body>

@@ -43,7 +43,7 @@
     <p class="caption">This shows a light vector being reflected across the surface normal. For calculating reflections, we care about the view vector, `hat bbV`, described below, instead of the light vector.</p>
   </div>
 
-  <p>Each time a ray intersects a sphere, calculate the reflectance vector. Start by taking taking the direction of the incoming ray and normalize it. This is `hat bbV`. So far, the incoming ray is just the ray we cast from the camera, but once we start applying the ray tracing algorithm recursively, this will be whatever ray was cast in the previous step.</p>
+  <p>Each time a ray intersects a sphere, calculate the reflectance vector. Start by taking the direction of the incoming ray, then reverse and normalize it. To reverse a vector, multiply it by `-1`. This is `hat bbV`. So far, the incoming ray is just the ray we cast from the camera, but once we start applying the ray tracing algorithm recursively, this will be whatever ray was cast in the previous step.</p>
 
   <p>Now, calculate the reflectance vector as `hat bbR = 2(hat bbN * hat bbV)hat bbN - hat bbV`.</p>
 
@@ -51,7 +51,7 @@
 
   <h2 class="step">Recursively apply the ray tracing algorithm</h2>
 
-  <p>Call the ray tracing algorithm using the reflectance vector, decreasing the recursion depth by one. The only difference for this call should be that for the resulting intersections, we don't care if `t &gt; 1`, because there is no image plane for these reflectance vectors (equivalently, the image plane is at `t = 0`).</p>
+  <p>Create a new ray, with the origin being the point of intersection with the previous ray, and the direction being the reflectance vector. Call the ray tracing algorithm using this new ray, decreasing the recursion depth by one.</p>
 
   <p>Once a color is returned from this recursive call, multiply it by `k_r` and add it to the color calculated by the Phong illumination model. Do this regardless of whether the intersection point is in shadow or not.</p>
 
