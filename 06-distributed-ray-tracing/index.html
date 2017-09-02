@@ -22,9 +22,11 @@
     <p class="caption">Sampling multiple times per pixel allows smoother transitions between visible and not visible.</p>
   </div>
 
-  <p>When used to avoid aliasing, the technique is called <em class="term">multisampling antialiasing</em>, or <em class="term">MSAA</em>. Often, the number of samples is used in the name, such as 4&times; MSAA.</p>
+  <p>When used to avoid aliasing, the technique is called <em class="term">supersampling antialiasing</em>, or <em class="term">SSAA</em>. Often, the number of samples is used in the name, such as 4&times; SSAA.</p>
 
   <p>The increased quality comes at a cost. The number of rays cast in total is multiplied by the number of samples per pixel, resulting in doing that many times more work for a single image.</p>
+
+  <p class="aside">A related technique is <em class="term">multisampling antialiasing</em> or <em class="term">MSAA</em>, where multiple samples are only taken at the edges of the geometry. This alleviates the performance hit of supersampling antialiasing.</p>
 
   <p>The general principle of distributed ray tracing can be applied to simulate many photorealistic effects:</p>
 
