@@ -91,9 +91,9 @@ git checkout before-project-1</code></pre>
 
   <h2 class="step">Visualize the rays</h2>
 
-  <p>While this is enough to move onto the next section, we should verify that our rays have been calculated correctly by visualizing the rays. All of the rays will have the same origin (the point on the image plane), so we want to visualize the direction. If you used the image plane and camera locations from above, then all of the directions will have the same `z`-coordinate. <span class="exercise">Exercise: show this is the case. What is the value of the `z`-coordinate?</span></p>
+  <p>While this is enough to move onto the next section, we should verify that our rays have been calculated correctly by visualizing the rays. There is a lot of data to visualize, so we'll choose to visualize the direction of each ray. If you used the image plane and camera locations from above, then all of the directions will have the same `z`-coordinate. <span class="exercise">Exercise: show this is the case. What is the value of the `z`-coordinate?</span></p>
 
-  <p>Figure out what the minimum and maximum values of `x` and `y` are. Convert the `x`-coordinates into the range `[0, 255]` and use that value as the red component of the color at the corresponding pixel. Do the same for the `y`-coordinate and use it as the value of the green component. Plot these pixels on the image. <span class="exercise">Exercise: where in the image is the red component the smallest, and where is it the largest? How about the green component? What does this imply for the colors you expect to see at the four corners of the image?</span></p>
+  <p>Figure out what the minimum and maximum values of the `x`- and `y`-coordinates of the ray directions are. Convert the `x`-coordinates into the range `[0, 255]` and use that value as the red component of the color at the corresponding pixel. Do the same for the `y`-coordinate and use it as the value of the green component. Plot these pixels on the image. <span class="exercise">Exercise: where in the image is the red component the smallest, and where is it the largest? How about the green component? What does this imply for the colors you expect to see at the four corners of the image?</span></p>
 
   <p>With the locations of the image plane and camera as above, and adding a splash of blue to each pixel, this is the resulting image:</p>
 
