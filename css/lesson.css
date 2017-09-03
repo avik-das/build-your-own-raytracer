@@ -124,6 +124,23 @@ ul.math-list {
   border-radius: 10px;
 }
 
+.hint {
+  padding: 1em;
+  margin: 2em;
+
+  font-size: 90%;
+
+  color: #3d3d32;
+  background: #ddffdd;
+  border: 2px solid #aca;
+  border-radius: 10px;
+}
+
+.hint:before {
+  content: "Hint: ";
+  font-style: italic;
+}
+
 .exercise {
   font-style: italic;
 }

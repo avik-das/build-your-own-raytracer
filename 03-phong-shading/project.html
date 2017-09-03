@@ -50,49 +50,59 @@
 
   <p>Give each sphere a material with the above properties.</p>
 
-  <h2 class="step">Shade objects using the Phong illumination model</h2>
+  <h2 class="step">Calculate the point of intersection and surface normal</h2>
 
   <p>In the last project, we found certain rays intersected with certain spheres. Each time this happens, do the following:</p>
 
-  <ol>
-    <li>
-      <p>Calculate the surface normal, `hat bbN`, on the sphere at the point of intersection, `vec bbp`. Given the value of `t` at the intersection, the point of intersection is the ray evaluated at that `t`: `vec bbp = vec bbo + t vec bbd`.</p>
+  <p>Calculate the surface normal, `hat bbN`, on the sphere at the point of intersection, `vec bbp`. Given the value of `t` at the intersection, the point of intersection is the ray evaluated at that `t`: `vec bbp = vec bbo + t vec bbd`.</p>
 
-      <div class="figure" id="figure-sphere-surface-normal">
-        <img width="384" alt="A vector pointing from a sphere's center to a point on the surface, giving us the surface normal" src="../img/sphere-surface-normal.png"/>
+  <div class="figure" id="figure-sphere-surface-normal">
+    <img width="384" alt="A vector pointing from a sphere's center to a point on the surface, giving us the surface normal" src="../img/sphere-surface-normal.png"/>
 
-        <p class="caption">To find the surface normal `hat bbN` at point `vec bbp`, take the vector between `vec bbp` and the sphere's center `vec bbc`, then normalize it.</p>
-      </div>
+    <p class="caption">To find the surface normal `hat bbN` at point `vec bbp`, take the vector between `vec bbp` and the sphere's center `vec bbc`, then normalize it.</p>
+  </div>
 
-      <p>Given the point of intersection, the surface normal on the sphere points in the direction `vec bbN = vec bbp - vec bbc`, where `vec bbc` is the center of the sphere. Normalize this vector to get `hat bbN`.</p>
-    </li>
+  <p>Given the point of intersection, the surface normal on the sphere points in the direction `vec bbN = vec bbp - vec bbc`, where `vec bbc` is the center of the sphere. Normalize this vector to get `hat bbN`.</p>
 
-    <li>
-      <p>For each light in the scene, calculate the light vector, `hat bbL`. To calculate this, take the location of the light, subtract the intersection point and normalize the resulting vector.</p>
+  <p class="hint">Do this <em>after</em> you've found the closest intersection, instead of <em>while</em> you're looping through all the objects trying to find the closest one. That way, you won't have to do these calculations every time you find a new candidate for the closest intersection.</p>
 
-      <p>For that light, calculate the diffuse component, `k_d i_d (\hat bbN * \hat bbL)`.</p>
+  <h2 class="step">Calculate the ambient term of the Phong illumination model</h2>
 
-      <div class="figure" id="figure-phong-diffuse">
-        <img width="512" alt="The surface normal and the light vector" src="../img/phong-diffuse.png"/>
+  <p>Previously, you were using the color assigned to the intersected sphere as the color of the pixel corresponding to a ray colliding with that sphere. Now, construct a new color based on the Phong illumination model. Start with the ambient term, `k_a i_a`.</p>
 
-        <p class="caption">The diffuse component at a point `vec bbp` depends on the angle between two vectors. The first vector is the surface normal at the point, `hat bbN`. The second is the normalized vector between the point and the light, `hat bbL`.</p>
-      </div>
-    </li>
+  <h2 class="step">Calculate the diffuse term</h2>
 
-    <li>
-      <p>For each light, calculate the reflectance vector: `hat bbR = 2 (hat bbN * hat bbL) hat bbN - hat bbL`. Also, calculate the view vector `hat bbV` by taking `vec bbp - vec bbC`, where `vec bbC` is the position of the camera, and normalizing it. Now calculate the specular component, `k_s i_s (hat bbV * hat bbR)^alpha`.</p>
-    
-      <div class="figure" id="figure-phong-specular">
-        <img width="512" alt="The surface normal, the light vector, the reflectance vector and the view vector" src="../img/phong-specular.png"/>
+  <p>Iterate through each light in the scene. For each light, calculate the light vector, `hat bbL`. To calculate this, take the location of the light, subtract the intersection point and normalize the resulting vector.</p>
 
-        <p class="caption">The specular highlight at a point `vec bbp` depends on the angle between the reflectance vector `hat bbR` and the viewing angle `hat bbV`. The reflectance vector depends on the light vector `hat bbL`.</p>
-      </div>
-    </li>
+  <p>If the light vector does not point in roughly the same direction as the normal vector, the light is facing the <em>inside</em> of the sphere. This happens when `\hat bbN * \hat bbL &lt; 0`. Ignore that light in this and the next step.</p>
 
-    <li><p>Finally, calculate the ambient term, independent of any lights: `k_a i_a`.</p></li>
+  <p>For each light we are not ignoring, calculate the diffuse component, `k_d i_d (\hat bbN * \hat bbL)`.</p>
 
-    <li><p>Add up all these terms across all the lights. This is the color of the pixel corresponding the ray being considered.</p></li>
-  </ol>
+  <div class="figure" id="figure-phong-diffuse">
+    <img width="512" alt="The surface normal and the light vector" src="../img/phong-diffuse.png"/>
+
+    <p class="caption">The diffuse component at a point `vec bbp` depends on the angle between two vectors. The first vector is the surface normal at the point, `hat bbN`. The second is the normalized vector between the point and the light, `hat bbL`.</p>
+  </div>
+
+  <p>Add all these terms to the color you're building up for that pixel.</p>
+
+  <h2 class="step">Calculate the specular term</h2>
+
+    <p>For that same light, calculate the reflectance vector: `hat bbR = 2 (hat bbN * hat bbL) hat bbN - hat bbL`. Also, calculate the view vector `hat bbV` by taking `vec bbp - vec bbC`, where `vec bbC` is the position of the camera, and normalizing it. Now calculate the specular component, `k_s i_s (hat bbV * hat bbR)^alpha`.</p>
+
+  <div class="figure" id="figure-phong-specular">
+    <img width="512" alt="The surface normal, the light vector, the reflectance vector and the view vector" src="../img/phong-specular.png"/>
+
+    <p class="caption">The specular highlight at a point `vec bbp` depends on the angle between the reflectance vector `hat bbR` and the viewing angle `hat bbV`. The reflectance vector depends on the light vector `hat bbL`.</p>
+  </div>
+
+  <p>Add all these terms to the color you're building up for that pixel.</p>
+
+  <h2 class="step">Clamp the resulting color</h2>
+
+  <p>You now have a color consisting of all the contributions from the last three steps. This is the color of the pixel corresponding the ray being considered.</p>
+
+  <p>Based on how you've set up your lights and materials, it's possible this color has a component greater than `1`. To avoid problems in this case, <em class="term">clamp</em> each component to the range `[0, 1]`: if a component is below `0`, set it to `0`, and if it is above `1`, set it to `1`.</p>
 
   <p>In the reference image, we added three spheres of three different colors. There are also two lights on opposite ends of the spheres. The resulting image looks like this:</p>
 
