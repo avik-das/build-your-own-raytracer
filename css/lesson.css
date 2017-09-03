@@ -145,6 +145,21 @@ ul.math-list {
   font-style: italic;
 }
 
-pre {
+pre,
+:not(pre) > code {
   font-size: 75%;
+  color: #3d3d3d;
+
+  background: #eaeaea;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+pre {
+  padding: 1em;
+  overflow-x: auto;
+}
+
+:not(pre) > code {
+  padding: 0.1em 0.5em;
 }
