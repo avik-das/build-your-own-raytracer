@@ -88,7 +88,7 @@
 
   <h2 class="step">Calculate the specular term</h2>
 
-    <p>For that same light, calculate the reflectance vector: `hat bbR = 2 (hat bbN * hat bbL) hat bbN - hat bbL`. Also, calculate the view vector `hat bbV` by taking `vec bbp - vec bbC`, where `vec bbC` is the position of the camera, and normalizing it. Now calculate the specular component, `k_s i_s (hat bbV * hat bbR)^alpha`.</p>
+    <p>For that same light, calculate the reflectance vector: `hat bbR = 2 (hat bbN * hat bbL) hat bbN - hat bbL`. Also, calculate the view vector `hat bbV` by taking `vec bbC - vec bbp`, where `vec bbC` is the position of the camera, and normalizing it. Now calculate the specular component, `k_s i_s (hat bbV * hat bbR)^alpha`.</p>
 
   <div class="figure" id="figure-phong-specular">
     <img width="512" alt="The surface normal, the light vector, the reflectance vector and the view vector" src="../img/phong-specular.png"/>
